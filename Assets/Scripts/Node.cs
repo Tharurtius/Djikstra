@@ -27,12 +27,13 @@ public class Node : MonoBehaviour
         get { return _pathWeight; }
         set { _pathWeight = value; }
     }
-    
+
     public float PathWeightHeuristic
     {
         get { return _pathWeight + _directDistanceToEnd; }
         set { _pathWeight = value; }
     }
+
     ///<summary>
     ///Following the shortest path, previousNode is the previous step on that path
     ///</summary>
@@ -43,6 +44,7 @@ public class Node : MonoBehaviour
         get { return _previousNode; }
         set { _previousNode = value; }
     }
+
     /// <summary>
     ///Nodes this node is connected to
     ///</summary>
@@ -57,11 +59,14 @@ public class Node : MonoBehaviour
         }
     }
 
+    [SerializeField] private Material path;
+
     private void Start()
     {
         ResetNode();
         ValidateNeighbours();
-    } 
+        RenderLine();
+    }
 
     public void ResetNode()
     {
@@ -84,6 +89,20 @@ public class Node : MonoBehaviour
         }
     }
 
+    private void RenderLine()
+    {
+        if (_neighbourNode.Count == 2)
+        {
+            LineRenderer lr = gameObject.AddComponent<LineRenderer>();
+            lr.positionCount = 3;
+            lr.SetPosition(0, _neighbourNode[0].transform.position);
+            lr.SetPosition(1, transform.position);
+            lr.SetPosition(2, _neighbourNode[1].transform.position);
+
+            lr.material = path;
+        }
+    }
+
     private void OnValidate()
     {
         ValidateNeighbours();
@@ -93,7 +112,7 @@ public class Node : MonoBehaviour
     {
         foreach (Node node in _neighbourNode)
         {
-            if(node == null) continue;
+            if (node == null) continue;
 
             if (!node._neighbourNode.Contains(this))
             {

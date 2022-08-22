@@ -20,6 +20,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.visualstudio@2.0.12/Editor/ProjectGeneration/ProjectProperties.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/UFOFlight.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -71,6 +72,7 @@
       <workItem from="1659931799283" duration="11216000" />
       <workItem from="1660540154644" duration="7214000" />
       <workItem from="1660550237069" duration="47000" />
+      <workItem from="1661141692986" duration="11799000" />
     </task>
     <servers />
   </component>

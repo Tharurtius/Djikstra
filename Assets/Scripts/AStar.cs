@@ -9,7 +9,6 @@ public class AStar : MonoBehaviour
     public Node start;
     public Node end;
     public List<Node> shortestPath;
-    public bool complete = false;
 
     private void Start()
     {
@@ -25,8 +24,6 @@ public class AStar : MonoBehaviour
             //Debug.Log(node.gameObject.name);
             prevNode = node;
         }
-
-        complete = true;
     }
 
     public List<Node> FindShortestPath(Node start, Node end)
