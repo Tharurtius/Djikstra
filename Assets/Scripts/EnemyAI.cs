@@ -11,7 +11,7 @@ public class EnemyAI : MonoBehaviour
 
     public Node currentNode;
     public Node goal;
-
+    [SerializeField] private GameObject explosion;
     private void Start()
     {
         path = pathfinder.GetComponent<AStar>().FindShortestPath(currentNode, goal);
@@ -47,8 +47,20 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void Die()
+    public IEnumerator Die()
     {
+        GameObject boom = Instantiate(explosion, transform.position, Quaternion.identity);
+        float time = 0.5f;
+        transform.GetChild(0).gameObject.SetActive(false);
+        GameManager.money += 10;
+        GameManager.score += 10;
+        while (time > 0)
+        {
+            time -= Time.deltaTime;
+            boom.transform.localScale *= 1.05f;
+            yield return null;
+        }
+        Destroy(boom);
         Destroy(gameObject);
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Node : MonoBehaviour
 {
     private float _directDistanceToEnd = 0;
+    [SerializeField] private float _towerClose = 0;
 
     public float DirectDistanceToEnd
     {
@@ -24,8 +25,14 @@ public class Node : MonoBehaviour
 
     public float PathWeight
     {
-        get { return _pathWeight; }
+        get { return _pathWeight + _towerClose; }
         set { _pathWeight = value; }
+    }
+
+    public float TowerClose
+    {
+        get { return _towerClose; }
+        set { _towerClose = value; }
     }
 
     public float PathWeightHeuristic

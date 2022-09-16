@@ -27,6 +27,7 @@ public class Spawner : MonoBehaviour
 
     public void SkipWave()
     {
+        GameManager.score += spawnTimer * 10;
         spawnTimer = 0;
     }
 
@@ -46,6 +47,6 @@ public class Spawner : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         //increase wave size
-        waveSize++;
+        waveSize *= 2;
     }
 }
