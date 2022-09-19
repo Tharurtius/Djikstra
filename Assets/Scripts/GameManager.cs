@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,12 +31,17 @@ public class GameManager : MonoBehaviour
     public GameObject selected;
     public Camera cam;
     public Vector3 point;
+    public GameObject nameField;
+    public Text inputField;
+
+    public static int lowestScore;
 
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main;
         state = GamePlayStates.Pause;
+        Application.targetFrameRate = 60;
     }
 
     // Update is called once per frame
@@ -106,13 +112,56 @@ public class GameManager : MonoBehaviour
             button.interactable = false;
         }
         loseText.SetActive(true);
+        if (score > lowestScore)
+        {
+            nameField.SetActive(true);
+        }
     }
 
     public void Quit()
     {
+        if (score > lowestScore)
+        {
+            NewScore();
+        }
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
         Application.Quit();
+    }
+
+    public void NewScore()
+    {
+        Dictionary<string, int> scores = new Dictionary<string, int>();
+        //initial value
+        scores.Add(PlayerPrefs.GetString("First Name"), PlayerPrefs.GetInt("First Place"));
+        scores.Add(PlayerPrefs.GetString("Second Name"), PlayerPrefs.GetInt("Second Place"));
+        scores.Add(PlayerPrefs.GetString("Third Name"), PlayerPrefs.GetInt("Third Place"));
+
+        //get name to 6 letters
+        string name;
+        if (inputField.text.Length > 6)
+        {
+            name = inputField.text.Substring(0, 6);
+        }
+        else
+        {
+            name = inputField.text;
+        }
+        //new value
+        scores.Add(name, Mathf.CeilToInt(score));
+
+        //sort
+        scores = scores.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+
+        //save
+        PlayerPrefs.SetString("First Name", scores.Keys.First());
+        PlayerPrefs.SetInt("First Place", scores.Values.First());
+        scores.Remove(scores.Keys.First());//remove first element of the list
+        PlayerPrefs.SetString("Second Name", scores.Keys.First());
+        PlayerPrefs.SetInt("Second Place", scores.Values.First());
+        scores.Remove(scores.Keys.First());
+        PlayerPrefs.SetString("Third Name", scores.Keys.First());
+        PlayerPrefs.SetInt("Third Place", scores.Values.First());
     }
 }
